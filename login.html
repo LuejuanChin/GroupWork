@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | DriveStyle Auto Accessories</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">DriveStyle Auto Accessories</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="login.html" class="active">Login</a></li>
+        <li><a href="register.html">Register</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="form-page">
+    <section class="form-container">
+      <h1>Login</h1>
+      <form id="loginForm">
+        <label for="loginTRN">TRN</label>
+        <input type="text" id="loginTRN" placeholder="000-000-000" required />
+
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required />
+
+        <p id="loginMessage" class="message"></p>
+
+        <div class="btn-group">
+          <button type="submit" class="btn">Login</button>
+          <button type="reset" class="btn secondary">Cancel</button>
+        </div>
+
+        <p style="margin-top:10px;">
+          <a href="#" onclick="resetPassword(); return false;">Reset Password</a>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    function getRegistrationData() {
+      return JSON.parse(localStorage.getItem("RegistrationData")) || [];
+    }
+
+    function getAttemptsMap() {
+      return JSON.parse(localStorage.getItem("loginAttemptsByTRN")) || {};
+    }
+
+    function saveAttemptsMap(data) {
+      localStorage.setItem("loginAttemptsByTRN", JSON.stringify(data));
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const trn = document.getElementById("loginTRN").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+      const message = document.getElementById("loginMessage");
+      const trnPattern = /^\d{3}-\d{3}-\d{3}$/;
+
+      message.textContent = "";
+      message.style.color = "red";
+
+      if (!trnPattern.test(trn)) {
+        message.textContent = "Enter a valid TRN in the format 000-000-000.";
+        return;
+      }
+
+      const users = getRegistrationData();
+      const user = users.find(item => item.trn === trn);
+      const attempts = getAttemptsMap();
+
+      if ((attempts[trn] || 0) >= 3) {
+        localStorage.setItem("lockedTRN", trn);
+        window.location.href = "locked.html";
+        return;
+      }
+
+      if (!user) {
+        message.textContent = "No account found. Please register first.";
+        return;
+      }
+
+      if (user.password === password) {
+        attempts[trn] = 0;
+        saveAttemptsMap(attempts);
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("currentUserTRN", user.trn);
+        localStorage.setItem("currentUserName", user.fullName || "");
+        message.style.color = "green";
+        message.textContent = "Login successful. Redirecting...";
+        setTimeout(() => {
+          window.location.href = "products.html";
+        }, 800);
+      } else {
+        attempts[trn] = (attempts[trn] || 0) + 1;
+        saveAttemptsMap(attempts);
+
+        if (attempts[trn] >= 3) {
+          localStorage.setItem("lockedTRN", trn);
+          window.location.href = "locked.html";
+          return;
+        }
+
+        message.textContent = "Invalid TRN or password. Attempt " + attempts[trn] + " of 3.";
+      }
+    });
+
+    function resetPassword() {
+      const trn = prompt("Enter your registered TRN:");
+      if (!trn) return;
+
+      const users = getRegistrationData();
+      const userIndex = users.findIndex(user => user.trn === trn.trim());
+
+      if (userIndex === -1) {
+        alert("No account found with that TRN.");
+        return;
+      }
+
+      const newPassword = prompt("Enter your new password (minimum 8 characters):");
+      if (!newPassword || newPassword.length < 8) {
+        alert("Password must be at least 8 characters long.");
+        return;
+      }
+
+      users[userIndex].password = newPassword;
+      localStorage.setItem("RegistrationData", JSON.stringify(users));
+
+      const attempts = getAttemptsMap();
+      attempts[trn.trim()] = 0;
+      saveAttemptsMap(attempts);
+
+      alert("Password updated successfully.");
+    }
+  </script>
+</body>
+</html>

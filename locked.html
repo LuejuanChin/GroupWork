@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account Locked | DriveStyle Auto Accessories</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">DriveStyle Auto Accessories</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="register.html">Register</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="form-page">
+    <section class="form-container" style="text-align:center;">
+      <h1 style="color:red;">Account Locked</h1>
+      <p>You have used three failed login attempts.</p>
+      <p>Reset your password below, then try again.</p>
+
+      <div class="btn-group" style="justify-content:center;">
+        <button type="button" class="btn" onclick="resetPassword()">Change Password</button>
+        <a href="login.html" class="btn secondary">Back to Login</a>
+      </div>
+
+      <p id="lockedMessage" class="message" style="margin-top:12px;"></p>
+    </section>
+  </main>
+
+  <script>
+    function getRegistrationData() {
+      return JSON.parse(localStorage.getItem("RegistrationData")) || [];
+    }
+
+    function saveRegistrationData(data) {
+      localStorage.setItem("RegistrationData", JSON.stringify(data));
+    }
+
+    function getAttemptsMap() {
+      return JSON.parse(localStorage.getItem("loginAttemptsByTRN")) || {};
+    }
+
+    function saveAttemptsMap(data) {
+      localStorage.setItem("loginAttemptsByTRN", JSON.stringify(data));
+    }
+
+    function resetPassword() {
+      const lockedMessage = document.getElementById("lockedMessage");
+      const defaultTRN = localStorage.getItem("lockedTRN") || "";
+      const trn = prompt("Enter your TRN:", defaultTRN);
+
+      if (!trn) return;
+
+      const users = getRegistrationData();
+      const userIndex = users.findIndex(user => user.trn === trn.trim());
+
+      if (userIndex === -1) {
+        lockedMessage.textContent = "No account found with that TRN.";
+        lockedMessage.style.color = "red";
+        return;
+      }
+
+      const newPassword = prompt("Enter your new password (minimum 8 characters):");
+      if (!newPassword || newPassword.length < 8) {
+        lockedMessage.textContent = "Password must be at least 8 characters long.";
+        lockedMessage.style.color = "red";
+        return;
+      }
+
+      users[userIndex].password = newPassword;
+      saveRegistrationData(users);
+
+      const attempts = getAttemptsMap();
+      attempts[trn.trim()] = 0;
+      saveAttemptsMap(attempts);
+
+      localStorage.removeItem("lockedTRN");
+
+      lockedMessage.textContent = "Password changed successfully. You can log in again.";
+      lockedMessage.style.color = "green";
+    }
+  </script>
+</body>
+</html>
