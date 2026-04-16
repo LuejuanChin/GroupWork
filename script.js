@@ -21,18 +21,55 @@ function saveAllInvoices(data) {
 }
 
 // Question 2(a)(b)
+// Question 2(a)(b)
 function getAllProducts() {
   let products = JSON.parse(localStorage.getItem("AllProducts"));
+
   if (!products || !Array.isArray(products) || products.length === 0) {
     products = [
-      { name: "Car Phone Mount", price: 2500, description: "Secure mount", image: "" },
-      { name: "LED Lights", price: 4500, description: "Interior lights", image: "" }
+      {
+        name: "Car Phone Mount",
+        price: 2500,
+        description: "Strong and adjustable dashboard mount for safe driving.",
+        image: "../Assets/phone-mount.jpeg"
+      },
+      {
+        name: "Interior LED Light Kit",
+        price: 4500,
+        description: "Bright multi-color LED lighting for a modern cabin look.",
+        image: "../Assets/led-lights.jpeg"
+      },
+      {
+        name: "Premium Seat Covers",
+        price: 6800,
+        description: "Comfortable and stylish seat covers.",
+        image: "../Assets/seat-cover.jpeg"
+      },
+      {
+        name: "Portable Car Vacuum",
+        price: 5200,
+        description: "Compact vacuum cleaner.",
+        image: "../Assets/car-vacuum.jpeg"
+      },
+      {
+        name: "Luxury Air Freshener",
+        price: 1200,
+        description: "Keep your car smelling fresh.",
+        image: "../Assets/air-freshener.jpeg"
+      },
+      {
+        name: "Dash Cam",
+        price: 9500,
+        description: "Record your trips clearly.",
+        image: "../Assets/dash-cam.jpeg"
+      }
     ];
+
     localStorage.setItem("AllProducts", JSON.stringify(products));
   }
+
   return products;
 }
-
 // Question 1(b)
 function getCurrentUserTRN() {
   return localStorage.getItem("currentUserTRN") || "";
@@ -130,11 +167,27 @@ function getNextInvoiceNumber() {
 }
 
 
+
 // Question 2(c)(d)
 function renderProducts() {
-  const productList = document.getElementById("productList");
+  const productList = document.querySelector(".product-grid");
   if (!productList) return;
 
+  const products = getAllProducts();
+  productList.innerHTML = "";
+
+  products.forEach(product => {
+    productList.innerHTML += `
+      <article class="product-card">
+        <img src="${product.image}" alt="${product.name}" />
+        <h2>${product.name}</h2>
+        <p>${product.description}</p>
+        <p class="price">$${product.price.toFixed(2)}</p>
+        <button class="btn" onclick="addToCart('${product.name}')">Add to Cart</button>
+      </article>
+    `;
+  });
+}
   const products = getAllProducts();
   productList.innerHTML = "";
 
