@@ -21,7 +21,6 @@ function saveAllInvoices(data) {
 }
 
 // Question 2(a)(b)
-// Question 2(a)(b)
 function getAllProducts() {
   let products = JSON.parse(localStorage.getItem("AllProducts"));
 
