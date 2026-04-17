@@ -160,7 +160,7 @@ function currency(amount) {
   return "JMD $" + Number(amount || 0).toFixed(2);
 }
 
-// Question 3(c)
+// Question 3(c) cart totals
 function calculateCartTotals(cart) {
   let subtotal = 0;
 
@@ -176,13 +176,13 @@ function calculateCartTotals(cart) {
   return { subtotal, discount, tax, total };
 }
 
-// Question 5(a)
+// Question 5(a) generating invoice by adding 1 
 function getNextInvoiceNumber() {
   const invoices = getAllInvoices();
   return "INV-" + String(invoices.length + 1).padStart(4, "0");
 }
 
-// Question 2(c)(d)
+// Question 2(c)(d) loading the products on webpage
 function renderProducts() {
   const productList = document.getElementById("productList");
   if (!productList) return;
@@ -204,7 +204,7 @@ function renderProducts() {
   });
 }
 
-// Question 2(e)
+// Question 2(e) add to cart 
 function addToCart(productName) {
   const products = getAllProducts();
   const product = products.find(item => item.name === productName);
@@ -307,7 +307,7 @@ function closeCart() {
   window.location.href = "products.html";
 }
 
-// Question 4(a)
+// Question 4(a) the checkout summary
 function renderCheckoutSummary() {
   const orderSummary = document.getElementById("orderSummary");
   if (!orderSummary) return;
@@ -345,7 +345,7 @@ function renderCheckoutSummary() {
   orderSummary.innerHTML = html;
 }
 
-// Question 5(a)(b)
+// Question 5(a)(b) Check out form
 function setupCheckoutForm() {
   const form = document.getElementById("checkoutForm");
   if (!form) return;
@@ -414,7 +414,7 @@ function setupCheckoutForm() {
   });
 }
 
-// Question 5(b)
+// Question 5(b) Brings up Invoices of the current user
 function renderInvoicePage() {
   const invoiceDisplay = document.getElementById("invoiceDisplay");
   if (!invoiceDisplay) return;
@@ -455,7 +455,7 @@ function renderInvoicePage() {
   }).join("");
 }
 
-// Question 6(a)
+// Question 6(a) Calculating user frequency 
 function showUserFrequency() {
   const container = document.getElementById("frequencyDisplay");
   if (!container) return;
@@ -500,7 +500,8 @@ function showUserFrequency() {
     createBarChart("Age Group Frequency", ageCounts);
 }
 
-// Question 6(b)
+
+// Question 6(b) Search invoices
 function showInvoices() {
   const searchTRNInput = document.getElementById("searchTRN");
   const invoiceList = document.getElementById("invoiceList");
@@ -527,7 +528,7 @@ function showInvoices() {
   `).join("");
 }
 
-// Question 6(c)
+// Question 6(c) Get user invoice function
 function getUserInvoices() {
   const userTRNInput = document.getElementById("userTRN");
   const userInvoiceDisplay = document.getElementById("userInvoiceDisplay");
@@ -586,7 +587,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-// ADDED: Auto Load User Invoices (Dashboard)
+//Auto Load User Invoices (Dashboard)
 function loadCurrentUserInvoices() {
   const userInvoiceDisplay = document.getElementById("userInvoiceDisplay");
   if (!userInvoiceDisplay) return;
