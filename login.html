@@ -49,14 +49,15 @@
     <p>&copy; 2026 DriveStyle Auto Accessories. All Rights Reserved.</p>
   </footer>
   <script>
+    //pulling registration data from local storage
     function getRegistrationData() {
       return JSON.parse(localStorage.getItem("RegistrationData")) || [];
     }
-
+  //linking trn to number of attempts
     function getAttemptsMap() {
       return JSON.parse(localStorage.getItem("loginAttemptsByTRN")) || {};
     }
-
+    // Three attempt function
     function saveAttemptsMap(data) {
       localStorage.setItem("loginAttemptsByTRN", JSON.stringify(data));
     }
@@ -116,7 +117,7 @@
         message.textContent = "Invalid TRN or password. Attempt " + attempts[trn] + " of 3.";
       }
     });
-
+  // Change password function
     function resetPassword() {
       const trn = prompt("Enter your registered TRN:");
       if (!trn) return;
