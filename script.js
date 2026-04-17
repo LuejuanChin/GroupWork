@@ -36,31 +36,31 @@ function getAllProducts() {
         name: "Interior LED Light Kit",
         price: 4500,
         description: "Bright multi-color LED lighting for a modern cabin look.",
-        image: "Assets/led-lights.jpeg"
+        image: "led-lights.jpeg"
       },
       {
         name: "Premium Seat Covers",
         price: 6800,
         description: "Comfortable and stylish seat covers to protect your interior.",
-        image: "Assets/seat-cover.jpeg"
+        image: "seat-cover.jpeg"
       },
       {
         name: "Portable Car Vacuum",
         price: 5200,
         description: "Compact vacuum cleaner for quick and easy interior cleaning.",
-        image: "Assets/car-vacuum.jpeg"
+        image: "car-vacuum.jpeg"
       },
       {
         name: "Luxury Air Freshener",
         price: 1200,
         description: "Long-lasting fragrance to keep your car smelling fresh.",
-        image: "Assets/air-freshener.jpeg"
+        image: "air-freshener.jpeg"
       },
       {
         name: "Dash Cam",
         price: 9500,
         description: "Record your trips with clear video for safety and security.",
-        image: "Assets/dash-cam.jpeg"
+        image: "dash-cam.jpeg"
       }
     ];
 
