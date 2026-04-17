@@ -528,33 +528,6 @@ function showInvoices() {
   `).join("");
 }
 
-// Question 6(b) Search invoices
-function showAllInvoices() {
-  const searchTRNInput = document.getElementById("searchTRN");
-  const invoiceList = document.getElementById("invoiceList");
-  if (!searchTRNInput || !invoiceList) return;
-
-  const trn = searchTRNInput.value.trim();
-  const invoices = getAllInvoices().filter(invoice => !trn || invoice.trn === trn);
-
-  if (invoices.length === 0) {
-    invoiceList.innerHTML = "<p>No invoices found.</p>";
-    console.log("No invoices found.");
-    return;
-  }
-
-  console.log("Invoices:", invoices);
-
-  invoiceList.innerHTML = invoices.map(invoice => `
-    <div class="card" style="margin:10px 0;padding:12px;border:1px solid #ccc;">
-      <p><strong>${invoice.invoiceNumber}</strong></p>
-      <p>TRN: ${invoice.trn}</p>
-      <p>Date: ${invoice.dateOfInvoice}</p>
-      <p>Total: ${currency(invoice.totalCost)}</p>
-    </div>
-  `).join("");
-}
-
 // Question 6(c) Get user invoice function
 function getUserInvoices() {
   const userTRNInput = document.getElementById("userTRN");
