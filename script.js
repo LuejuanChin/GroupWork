@@ -551,6 +551,31 @@ function getUserInvoices() {
   `).join("");
 }
 
+// ADDED: Show All Invoices
+function showAllInvoices() {
+  const invoiceList = document.getElementById("invoiceList");
+  if (!invoiceList) return;
+
+  const invoices = getAllInvoices();
+
+  if (!Array.isArray(invoices) || invoices.length === 0) {
+    invoiceList.innerHTML = "<p>No invoices found.</p>";
+    console.log("No invoices found.");
+    return;
+  }
+
+  console.log("All Invoices:", invoices);
+
+  invoiceList.innerHTML = invoices.map(invoice => `
+    <div class="card" style="margin:10px 0;padding:12px;border:1px solid #ccc;">
+      <p><strong>${invoice.invoiceNumber}</strong></p>
+      <p>TRN: ${invoice.trn}</p>
+      <p>Date: ${invoice.dateOfInvoice}</p>
+      <p>Total: ${currency(invoice.totalCost)}</p>
+    </div>
+  `).join("");
+}
+
 // Question 1, 2, 3, 4, 5, 6 - run functions by page
 document.addEventListener("DOMContentLoaded", function() {
   const protectedPages = ["products.html", "cart.html", "checkout.html", "invoice.html", "dashboard.html"];
