@@ -586,9 +586,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-// ==========================
 // ADDED: Auto Load User Invoices (Dashboard)
-// ==========================
 function loadCurrentUserInvoices() {
   const userInvoiceDisplay = document.getElementById("userInvoiceDisplay");
   if (!userInvoiceDisplay) return;
@@ -616,9 +614,8 @@ function loadCurrentUserInvoices() {
   `).join("");
 }
 
-// ==========================
+
 // ADDED: Run on Dashboard Load
-// ==========================
 document.addEventListener("DOMContentLoaded", function () {
   loadCurrentUserInvoices();
 });
