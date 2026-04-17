@@ -584,3 +584,41 @@ document.addEventListener("DOMContentLoaded", function() {
     showUserFrequency();
   }
 });
+
+
+// ==========================
+// ADDED: Auto Load User Invoices (Dashboard)
+// ==========================
+function loadCurrentUserInvoices() {
+  const userInvoiceDisplay = document.getElementById("userInvoiceDisplay");
+  if (!userInvoiceDisplay) return;
+
+  const currentUserTRN = localStorage.getItem("currentUserTRN");
+
+  if (!currentUserTRN) {
+    userInvoiceDisplay.innerHTML = "<p>No user is currently logged in.</p>";
+    return;
+  }
+
+  const user = getRegistrationData().find(item => item.trn === currentUserTRN);
+
+  if (!user || !Array.isArray(user.invoices) || user.invoices.length === 0) {
+    userInvoiceDisplay.innerHTML = "<p>No invoices found for this user.</p>";
+    return;
+  }
+
+  userInvoiceDisplay.innerHTML = user.invoices.map(invoice => `
+    <div class="card" style="margin:10px 0;padding:12px;border:1px solid #ccc;">
+      <p><strong>${invoice.invoiceNumber}</strong></p>
+      <p>Date: ${invoice.dateOfInvoice}</p>
+      <p>Total: ${currency(invoice.totalCost)}</p>
+    </div>
+  `).join("");
+}
+
+// ==========================
+// ADDED: Run on Dashboard Load
+// ==========================
+document.addEventListener("DOMContentLoaded", function () {
+  loadCurrentUserInvoices();
+});
